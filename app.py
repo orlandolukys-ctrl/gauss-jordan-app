@@ -150,7 +150,7 @@ if st.button("Aplicar método de Gauss-Jordan"):
         infinitas = False
 
         for i in range(filas):
-            if all(resultado[i, j] == 0 for j in range(cols-1)) and resultado[i, -1] != 0:
+            if all(resultado[i, j] == 0 for j in range(cols - 1)) and resultado[i, -1] != 0:
                 soluciones = False
 
             if all(resultado[i, j] == 0 for j in range(cols)):
@@ -177,19 +177,50 @@ if st.button("Aplicar método de Gauss-Jordan"):
                 solucion.append(texto)
                 st.write(texto)
 
+        # =========================
+        # GENERACIÓN Y DESCARGA PDF
+        # =========================
         st.divider()
-        if st.button("📄 Exportar procedimiento a PDF"):
+
+        if "pdf_generado" not in st.session_state:
+            st.session_state.pdf_generado = False
+
+        if st.button("📄 Generar PDF"):
             archivo = generar_pdf(pasos, clasificacion, solucion)
-            with open(archivo, "rb") as f:
+            st.session_state.archivo_pdf = archivo
+            st.session_state.pdf_generado = True
+            st.success("PDF generado correctamente. Ahora puede descargarlo.")
+
+        if st.session_state.pdf_generado:
+            with open(st.session_state.archivo_pdf, "rb") as f:
                 st.download_button(
                     label="📥 Descargar PDF",
                     data=f,
-                    file_name=archivo,
+                    file_name=st.session_state.archivo_pdf,
                     mime="application/pdf"
                 )
 
-    
 
+
+
+
+        
+                
+    
+           
+
+    
+        
+
+
+    
+    
+        
+            
+            
+
+       
+                    
    
 
     
